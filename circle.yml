@@ -22,5 +22,5 @@ dependencies:
   override:
     - cd $GOPATH/src/github.com/sargun/signal-wrapper && go install ./...
     - cd $GOPATH/src/github.com/sargun/signal-wrapper && go test -i ./...
-    - cd $GOPATH/src/github.com/sargun/signal-wrapper && gox -arch=amd64 -os="linux darwin windows" -output="${CIRCLE_ARTIFACTS}/{{.Dir}}-$(<VERSION)-{{.OS}}-{{.Arch}}" -ldflags="-X main.Version=$(<VERSION)"
+    - cd $GOPATH/src/github.com/sargun/signal-wrapper && gox -arch=amd64 -os="linux darwin" -output="${CIRCLE_ARTIFACTS}/{{.Dir}}-$(<VERSION)-{{.OS}}-{{.Arch}}" -ldflags="-X main.Version=$(<VERSION)"
 
