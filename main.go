@@ -13,7 +13,6 @@ func signalWatcher() {
   signalCount := 0
   signalChan := make(chan os.Signal, 10)
   signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
-  fmt.Println("a")
 
   for signal := range signalChan {
     fmt.Println("Retransmitting signal")
@@ -26,7 +25,10 @@ func signalWatcher() {
   }
 }
 func main() {
-  fmt.Println("Hi")
+  if len(os.Args) < 2 {
+    fmt.Printf("Usage: %s [cmd] [args]\n", os.Args[1])
+    os.Exit(1)
+  }
   go signalWatcher()
   cmd = exec.Command(os.Args[1], os.Args[2:]...)
   cmd.Stdin = os.Stdin
@@ -35,7 +37,6 @@ func main() {
   cmd.SysProcAttr = &syscall.SysProcAttr{}
   cmd.SysProcAttr.Setpgid = true
   err := cmd.Run()
-  fmt.Println("lol")
   if err != nil {
     if exiterr, ok := err.(*exec.ExitError); ok {
       if status, ok := exiterr.Sys().(syscall.WaitStatus); ok {
